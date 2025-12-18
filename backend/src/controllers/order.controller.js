@@ -1,0 +1,76 @@
+import {Order} from "../models/order.model.js"
+import { Product } from "../models/product.model"
+import {Review} from "../models/review.model.js"
+export async function createOrder(req,res) {
+    try {
+        const user = req.user
+        const {orderItems, shippingAddress, paymentResult, totalPrice} = req.body
+
+        if(orderItems|| orderItems.lenght === 0){
+            return res.status(400).json({error: "no order ıtems"})
+        }
+
+        //validate product & stock
+
+        for(const item of orderItems){
+            const product = await Product.findById(item.product._id)
+            if(!product){
+                return res.status(404).json({error: 'product ${item.name} not found' })
+            }
+            if(product.stock < item.quantity){
+                return res.status(400).json({error:'Insufficient stock for ${product.name}'})
+            }
+        }
+
+        const order = await Order.create({
+            user: user._id,
+            clerkId:user.clerkId,
+            orderItems,
+            shippingAddress,
+            paymentResult,
+            totalPrice
+        })
+
+        //update product stock
+
+        for(const item of orderItems){
+            await Product.findByIdAndUpdate(item.product._id,{
+                $inc: {stock: -item.quantity},
+            })
+        }
+        res.status(201).json({message: "order created successfully", order})
+
+    } catch (error) {
+        console.error("error in createOrder controller: ", errpr)
+        res.status(500).json({error: "ınternal server error"})
+    }
+}
+
+export async function getUserOrders(req,res) {
+    try {
+        const orders = await Order.find({clerkId: req.user.clerkId})
+        .populate("orderItems.product")
+        .sort({createdAt:-1})
+
+        //check if each order has been reviewed
+
+        const orderIds = orders.map((order) => order._id)
+        const reviews = await Review.find({orderId: {$inc: orderIds}})
+        const reviewOrderIds = new Set(reviews.map((review) => review.orderId.toString()))
+
+        const orderWithReviewStatus = await Promise.all(
+            orders.map(async(order)=>{
+                
+                return{
+                    ...order.toObject(),
+                    hasReviewed: reviewOrderIds.has(order._id.toString())
+                }
+            })
+        )
+
+        res.status(200).json({orders: orderWithReviewStatus})
+    } catch (error) {
+        console.error("error in getUserOrders controllers: ",error)
+        res.status(500).json({error: "Internal server error"})
+    }
+}
