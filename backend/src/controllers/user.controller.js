@@ -7,6 +7,10 @@ export async function addAddress(req,res) {
 
         const user = req.user
 
+        if(!fullName || !streetAddress ||! city || !state || !zipCode){
+            return res.status(400).json({error: "missing required address fields"})
+        }
+
         //if this is set as default , unset all other defaults
 
         if(isDefault){
@@ -121,7 +125,7 @@ export async function removeFromWishlist(req,res) {
 
         //check if product is already in the wishlist
         if(user.wishlist.includes(productId)){
-            return res.status(400).json({error: "product is not even in wishlist"})
+            return res.status(400).json({error: "product not found in wishlist"})
         }
 
         user.wishlist.pull(productId)
@@ -136,7 +140,9 @@ export async function removeFromWishlist(req,res) {
 
 export async function getWishlist(req,res) {
     try {
-        const user = req.user
+
+        //! we're using populate because wishlist is just an array of product id's
+        const user = await User.findById(req.user._id).populate("wishlit")
         res.status(200).json({wishlist: user.wishlist})
     } catch (error) {
         console.error("error in getWishlist controller: ",error)
