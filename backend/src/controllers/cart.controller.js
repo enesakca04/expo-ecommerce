@@ -37,6 +37,7 @@ export async function addToCart(req,res) {
 
         let cart = await Cart.findOne({clerkId:req.user.clerkId})
         if(!cart){
+            const user = req.user
             cart = await Cart.create({
                 user:user._id,
                 clerkId:user.clerkId,
@@ -59,6 +60,7 @@ export async function addToCart(req,res) {
             cart.items.push({product: productId, quantity})
         }
         await cart.save()
+        res.status(200).json({message: "item added to cart", cart})
     } catch (error) {
         console.error("error in addToCart controller: ", error)
         res.status(500).json({error: "Internal server error"})
@@ -78,7 +80,7 @@ export async function updateCartItem(req,res) {
             return res.status(404).json({error: "cart not found"})
         }
 
-        const itemIndex = cart.items.findIdex((item) => item.product.toString()=== productId)
+        const itemIndex = cart.items.findIndex((item) => item.product.toString()=== productId)
 
         if(itemIndex === -1){
             return res.status(404).json({error:" item not found in cart"})
