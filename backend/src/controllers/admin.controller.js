@@ -44,7 +44,7 @@ export async function createProduct(req,res){
 }
 
 
-export async function getAllProducts(_,res){ //! burada normalde req vardı fakat kullanmadığımız icin yerine _koyduk, bu da degisken oldugu ama kullanılmadıgı anlamına gelir
+export async function getAllProducts(_,res){ 
     try {
         // -1 means in desc order : most recent products first 
         //! meali son yüklenen üründen sıralamaya basla
