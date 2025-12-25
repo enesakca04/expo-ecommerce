@@ -12,12 +12,13 @@ function DashboardLayout() {
           <Navbar/>
           <main className='p-6'>
             <Outlet/>
+            {/*outlet kısmı sayfanın ana içeriğini gösterir, sidebar navbar sabit kalır burası gezinen sayfaya gore degisir icerik bakımından */}
           </main>
           
         </div>
           <Sidebar/>
     </div>
-    //outlet kısmı sayfanın ana içeriğini gösterir, sidebar navbar sabit kalır burası gezinen sayfaya gore degisir icerik bakımından
+    
   )
 }
 

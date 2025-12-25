@@ -41,14 +41,14 @@ function Sidebar() {
         <div className="p-4 w-full">
             <div className="flex items-center gap-3">
                 <div className="avatar shrink-0">
-                    <img src={user?.imageUrl} alt={user?.name} className="w-10 h-10 rounded-full" />
+                    <img src={user?.imageUrl} alt={user?.firstName || 'User'} className="w-10 h-10 rounded-full" />
                 </div>
                 <div className="flex-1 min-w-0 is-drawer-close:hidden">
                     <p className="text-sm font-semibold truncate">
                         {user?.firstName} {user?.lastName}
                     </p>
                     <p className="text-xs opacity-60 truncate">
-                        {user?.emailAddresses[0].emailAddress}
+                        {user?.emailAddresses?.[0]?.emailAddress}
                     </p>
                 </div>
                 
