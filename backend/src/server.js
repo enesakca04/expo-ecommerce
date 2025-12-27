@@ -1,12 +1,12 @@
 import express from "express"
 import path from "path";
-import {ENV} from "./config/env.js"
-import { connectDB } from "./config/db.js";
 import { clerkMiddleware } from '@clerk/express'
 import {serve} from "inngest/express"
 import cors from "cors"
-
 import {functions,inngest} from "./config/inngest.js"
+import {ENV} from "./config/env.js"
+import { connectDB } from "./config/db.js";
+
 
 import adminRoutes from "./routes/admin.route.js"
 import userRoutes from "./routes/user.route.js"
