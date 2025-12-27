@@ -46,6 +46,11 @@ function ProductsPage() {
       closeModal()
       queryClient.invalidateQueries({queryKey:["products"]})
     }
+    ,
+    onError: (error) => {
+      console.log("Kayıt Hatası Detayı:", error)
+      alert("Hata: " + error.message)
+    }
   })
 
   const deleteProductMutation = useMutation({
@@ -91,6 +96,12 @@ function ProductsPage() {
   const handleImageChange =(e) =>{ //e event kısaltması
     const files = Array.from(e.target.files)
     if(files.length >3 ) return alert ("maximum 3 images allowed")
+
+    imagePreviews.forEach(url => {
+    if (url.startsWith('blob:')) {
+        URL.revokeObjectURL(url)
+      }
+    })
 
     setImages(files)
     setImagePreviews(files.map((file)=> URL.createObjectURL(file)))
@@ -144,7 +155,7 @@ function ProductsPage() {
                 <div className="flex items-center gap-6">
                   <div className="avatar">
                     <div className="w-20 rounded-xl">
-                      <img src={product.images[0]} alt={product.name} />
+                      <img src={product.images?.[0] || '/placeholder.png'} alt={product.name} />
                     </div>
                   </div>
 
@@ -154,7 +165,7 @@ function ProductsPage() {
                         <h3 className="card-title">{product.name}</h3>
                         <p className=" text-base-content/70 text-sm">{product.category}</p>
                       </div>
-                      <div className={`badge${status.class}`}>{status.text}</div>
+                      <div className={`badge ${status.class}`}>{status.text}</div>
                     </div>
                     <div className="flex items-center gap-6 mt-4">
                       <div>
@@ -198,7 +209,7 @@ function ProductsPage() {
         <div className="modal-box max-w-2xl">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-2xl">
-              {editingProduct ? "Edit Product " : "Added New Product"}
+              {editingProduct ? "Edit Product " : "Add New Product"}
             </h3>
             <button onClick={closeModal} className="btn btn-sm btn-circle btn-ghost">
               <XIcon className="size-5"/>
@@ -299,7 +310,7 @@ function ProductsPage() {
               </div>
               )}
             </div>
-            <div className="modal-acion">
+            <div className="modal-action">
               <button type="button" onClick={closeModal} className="btn" disabled={createProductMutation.isPending || updateProductMutation.isPending}>
                 Cancel
               </button>
