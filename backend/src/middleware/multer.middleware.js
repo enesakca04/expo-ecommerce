@@ -5,17 +5,17 @@ const storage = multer.diskStorage({
     filename: (req, file, cb) =>{
         const ext = path.extname(file.originalname|| "").toLowerCase()
         const safeExt = [".jpeg",".jpg",".png",".webp"].includes(ext) ? ext : ""
-        const unique = '${Date.now()}-${Math.round(Math.random()*1e9)}'
+        const unique = `${Date.now()}-${Math.round(Math.random()*1e9)}`
         cb(null,'${unique}${safeExt}')
     }
 })
 
 //file filter: jpeg jpg, png , webp
 
-const fileFilter = (req,res,cb) =>{
+const fileFilter = (req,file,cb) =>{
     const allowedTypes = /jpeg|jpg|png|webp/
-    const extname = allowedTypes.test(path.extname(file.originalnam).toLowerCase())
-    const mimeType = allowedTypes.test(file.mimeType)
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase())
+    const mimeType = allowedTypes.test(file.mimetype)
 
     if(extname && mimeType){
         cb(null,true)

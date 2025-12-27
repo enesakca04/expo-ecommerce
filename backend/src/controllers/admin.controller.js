@@ -11,7 +11,7 @@ export async function createProduct(req,res){
             return res.status(400).json({message:"all fields ar required"})
         }
 
-        if(!req.files|| !reqq.files.length ===0){
+        if(!req.files|| !req.files.length ===0){
             return res.status(400).json({message: "at least one image is required"})
         }
 
@@ -27,7 +27,7 @@ export async function createProduct(req,res){
 
         const imageUrls = uploadResults.map((result) => result.secure_url)
 
-        const product = new Product.create({
+        const product = await Product.create({
             name,
             description,
             price:parseFloat(price),
@@ -176,4 +176,31 @@ export async function getDashboardStats(_,res) {
         console.error("error fetching dashboard stats: ",error)
         res.status(500).json({error: "ınternal server error"})
     }
+}
+
+export const deleteProduct = async (req,res) =>{
+    try {
+    const { id } = req.params;
+
+    const product = await Product.findById(id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Delete images from Cloudinary
+    if (product.images && product.images.length > 0) {
+      const deletePromises = product.images.map((imageUrl) => {
+        // Extract public_id from URL (assumes format: .../products/publicId.ext)
+        const publicId = "products/" + imageUrl.split("/products/")[1]?.split(".")[0];
+        if (publicId) return cloudinary.uploader.destroy(publicId);
+      });
+      await Promise.all(deletePromises.filter(Boolean));
+    }
+
+    await Product.findByIdAndDelete(id);
+    res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    res.status(500).json({ message: "Failed to delete product" });
+  }
 }
