@@ -6,7 +6,7 @@ export async function createOrder(req,res) {
         const user = req.user
         const {orderItems, shippingAddress, paymentResult, totalPrice} = req.body
 
-        if(orderItems|| orderItems.lenght === 0){
+        if(orderItems|| orderItems.length === 0){
             return res.status(400).json({error: "no order ıtems"})
         }
 
