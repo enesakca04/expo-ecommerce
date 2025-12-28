@@ -18,7 +18,7 @@ function OrdersPage() {
     }
     ,
     onError: (error) => {
-      console.log("Guncelleme Hatası Detayı:", error)
+      console.log("Update Order Status Hatası:", error)
       alert("Hata: " + error.message)
     }
   })
@@ -49,7 +49,7 @@ function OrdersPage() {
           ): orders.length === 0?(
             <div className="text-center py-12 text-base-content/60">
               <p className="text-xl font-semibold mb-2">No orders yet</p>
-              <p className="text-sm">Orders will apear here once customer make purchases</p>
+              <p className="text-sm">Orders will appear here once customer make purchases</p>
             </div>
           ):(
             <div className="overflow-x-auto">
