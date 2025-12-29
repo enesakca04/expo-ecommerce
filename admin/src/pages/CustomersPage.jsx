@@ -50,7 +50,7 @@ function CustomersPage() {
                     <tr key={customer._id}>
                       <td className="flex items-center gap-3">
                         <div className="avatar placeholder">
-                          <div className="bg-orimary text-primary-content rounded-full w-12">
+                          <div className="bg-primary text-primary-content rounded-full w-12">
                             <img src={customer.imageUrl} alt={customer.name} className="size-12 rounded-full" />
                           </div>
                         </div>
