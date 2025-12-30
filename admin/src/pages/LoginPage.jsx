@@ -2,7 +2,7 @@ import { SignIn } from '@clerk/clerk-react'
 
 function LoginPage() {
   return (
-    <div>LoginPage
+    <div className='h-screen flex justify-center items-center'>
       <SignIn/>
     </div>
     
