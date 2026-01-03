@@ -68,7 +68,7 @@ const AuthScreen = () => {
       
     </View>
     <Text className="text-center text-gray-500 text-xs leading-4 mt-6 px-2">
-      By signing up, you agree to out {" "}
+      By signing up, you agree to our {" "}
       <Text className="text-blue-500">
         Terms
       </Text>{", "}<Text className="text-blue-500">
