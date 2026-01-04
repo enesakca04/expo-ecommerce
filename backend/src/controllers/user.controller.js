@@ -142,7 +142,7 @@ export async function getWishlist(req,res) {
     try {
 
         //! we're using populate because wishlist is just an array of product id's
-        const user = await User.findById(req.user._id).populate("wishlit")
+        const user = await User.findById(req.user._id).populate("wishlist")
         res.status(200).json({wishlist: user.wishlist})
     } catch (error) {
         console.error("error in getWishlist controller: ",error)
