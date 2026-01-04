@@ -25,7 +25,7 @@ const cartSchema = new mongoose.Schema({
         required:true,
         unique:true // burası clerk tarafı icin
     },
-    ıtems:[cartItemSchema]
+    items:[cartItemSchema]
 },{timestamps:true})
 
 export const Cart = mongoose.model("Cart",cartSchema)
