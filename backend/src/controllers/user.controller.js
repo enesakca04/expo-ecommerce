@@ -124,7 +124,7 @@ export async function removeFromWishlist(req,res) {
         const user = req.user
 
         //check if product is already in the wishlist
-        if(user.wishlist.includes(productId)){
+        if(!user.wishlist.includes(productId)){
             return res.status(400).json({error: "product not found in wishlist"})
         }
 

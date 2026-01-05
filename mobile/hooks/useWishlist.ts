@@ -25,7 +25,10 @@ const useWishlist = () => {
             const {data} = await api.delete<{wishlist:string[]}>(`/users/wishlist/${productId}`)
             return data.wishlist
         },
-        onSuccess:()=>queryClient.invalidateQueries({queryKey:["wishlist"]})
+        onSuccess:()=>queryClient.invalidateQueries({queryKey:["wishlist"]}),
+        onError: (error) => {
+            console.error("SİLME HATASI:", error); // Hata varsa burada görürsün
+        }
     })
 
     const isInWishlist = (productId:string)=>{
