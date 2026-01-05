@@ -41,7 +41,7 @@ const ProfileScreen = () => {
                 </View>
                 <View className='flex-1 ml-4'>
                   <Text className='text-text-primary text-2xl font-bold mb-1'>{user?.firstName} {user?.lastName}</Text>
-                  <Text className='text-text-secondary text-sm'> {user?.emailAddresses[0].emailAddress}</Text>
+                  <Text className='text-text-secondary text-sm'> {user?.emailAddresses?.[0].emailAddress|| "No Email"}</Text>
                 </View>
               </View>
             </View>
@@ -59,7 +59,7 @@ const ProfileScreen = () => {
               onPress={()=> handleMenuPress(item.action)}
               >
                 <View className='rounded-full w-16 h-16 items-center justify-center mb-4' style={{backgroundColor: item.color + "20"}}>
-                  <Ionicons name={item.icon as any} size={28} color={item.color}/>
+                  <Ionicons name={item.icon} size={28} color={item.color}/>
                 </View>
                 <Text className='text-text-primary font-bold text-base'>{item.title}</Text>
 
