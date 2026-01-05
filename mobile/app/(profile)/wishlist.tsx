@@ -16,8 +16,7 @@ const WishlistScreen = () => {
         Alert.alert("Remove from wishlist",`Remove ${productName} from wishlist`,[
             {text:"Cancel", style:"cancel"},
             {text: "Remove", style:"destructive", onPress : () =>
-                {console.log("Butona basıldı, silme başlıyor...")
-                removeFromWishlist(productId)}}
+                removeFromWishlist(productId)}
         ])
     }
     const handleAddToCart = (productId: string, productName: string) =>{
@@ -40,7 +39,7 @@ if(isError) return <ErrorUI/>
         {/*HEADER*/}
         <View className='px-6 pb-5 border-b border-surface flex-row items-center'>
             <TouchableOpacity className='mr-4' onPress={()=> router.back()}>
-                <Ionicons name='arrow-back' size={28} color="#FFFFF"/>
+                <Ionicons name='arrow-back' size={28} color="#FFFFFF"/>
             </TouchableOpacity>
             <Text className='text-text-primary text-2xl font-bold'>Wishlist</Text>
             <Text className='text-text-secondary text-sm ml-auto'>
