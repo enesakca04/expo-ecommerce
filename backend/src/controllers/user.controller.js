@@ -37,15 +37,15 @@ export async function addAddress(req,res) {
     }
 }
 
-export async function getAddresses(req,res) {
-    try {
-        const user = req.user
+export async function getAddresses(req, res) {
+  try {
+    const user = req.user;
 
-        res.status(200).json({addAddress: user.addresses})
-    } catch (error) {
-        console.error("error in getAddresses controller: ", error)
-        res.status(500).json({error: "ınternal server error"})
-    }
+    res.status(200).json({ addresses: user.addresses });
+  } catch (error) {
+    console.error("Error in getAddresses controller:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 }
 
 export async function updateAddress(req,res) {
