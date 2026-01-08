@@ -19,7 +19,7 @@ export async function addAddress(req,res) {
 
         user.addresses.push({
             label,
-            fullname,
+            fullName,
             streetAddress,
             city,
             state,
