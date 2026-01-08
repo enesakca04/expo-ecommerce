@@ -17,7 +17,6 @@ function AddressesScreen() {
     isAddingAddress,
     isDeletingAddress,
     isError,
-    error,
     isLoading, 
     isUpdatingAddress,
     updateAddress
@@ -121,7 +120,10 @@ function AddressesScreen() {
     }
   }
 
-  const handleCloseAddressForm= ()=>{}
+  const handleCloseAddressForm= ()=>{
+    setShowAddressForm(false);
+    setEditingAddressId(null);
+  }
 
   if(isLoading) return <LoadingUI/>
   if(isError) return <ErrorUI/>
